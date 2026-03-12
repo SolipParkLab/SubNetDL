@@ -56,14 +56,12 @@ class Graph_classification(nn.Module):
         super(Graph_classification, self).__init__()
         self.gat_layer = GATlayer(k,1,act_func = 'prelu')
         self.linear = nn.Linear(number_of_genes,1)
-        self.softnax = nn.Sigmoid()
 
     def forward(self, x, mask):
         x = self.gat_layer(x, mask)
         x = torch.min(x,0).values
         x = x.squeeze()
         x = self.linear(x)
-        x = self.softnax(x)
         return x
     
 
